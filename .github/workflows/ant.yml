@@ -5,7 +5,7 @@ name: Java CI
 
 on:
   push:
-    branches: [ moaster ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
