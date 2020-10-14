@@ -1,21 +1,3 @@
-/*
- * DBGrep - Java utility to search a value in a database.
- * Copyright (C) 2016 Thomas Leplus
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package org.leplus.apps;
 
 import java.sql.Connection;
@@ -23,7 +5,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.Types;
 import java.util.Arrays;
 import java.util.List;
@@ -102,11 +84,10 @@ class DBGrep {
         if (error)
             return;
         Connection con = null;
-        Statement stmt = null;
+        PreparedStatement stmt = null;
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(url, login, password);
-            stmt = con.createStatement();
             ResultSet rs1;
             ResultSet rs2;
             String sch;
@@ -126,7 +107,9 @@ class DBGrep {
                 type = rs1.getInt(5);
                 try {
                     if (type == Types.VARCHAR) {
-                        rs2 = stmt.executeQuery("SELECT " + col + " FROM " + sch + '.' + tbl + " WHERE " + col + " LIKE '" + value + "'");
+                        stmt = con.createPreparedStatement("SELECT " + col + " FROM " + sch + '.' + tbl + " WHERE " + col + " LIKE ?");
+                        stmt.setString(1, value);
+                        rs2 = stmt.executeQuery();
                         while (rs2.next()) {
                             res = rs2.getString(1);
                             System.out.println(sch + '.' + tbl + '.' + col + ':'  + res);
