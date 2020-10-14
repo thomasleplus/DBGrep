@@ -107,7 +107,7 @@ class DBGrep {
                 type = rs1.getInt(5);
                 try {
                     if (type == Types.VARCHAR) {
-                        stmt = con.createPreparedStatement("SELECT " + col + " FROM " + sch + '.' + tbl + " WHERE " + col + " LIKE ?");
+                        stmt = con.preparedStatement("SELECT " + col + " FROM " + sch + '.' + tbl + " WHERE " + col + " LIKE ?");
                         stmt.setString(1, value);
                         rs2 = stmt.executeQuery();
                         while (rs2.next()) {
