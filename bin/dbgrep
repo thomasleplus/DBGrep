@@ -1,7 +1,0 @@
-#!/bin/bash
-
-JAVA_HOME=/cygdrive/c/tools/java/jdk_1.5.0_11
-MEM=128M
-CLASSPATH='C:\\cygwin\\home\\thomas_leplus\\dbgrep\\build;C:\\calypso\\software\\release\\jars\\ojdbc14.jar'
-
-"${JAVA_HOME}/bin/java" "-Xmx${MEM}" -classpath "${CLASSPATH}" org.leplus.apps.DBGrep "$@"
