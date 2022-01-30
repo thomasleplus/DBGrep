@@ -1,10 +1,14 @@
 ---
+name: Maven Dependency Check
 
-stages:
-  - lint
-  - test
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
 
-variables:
+env:
   # This will suppress any download for dependencies and plugins or
   # upload messages which would clutter the console
   # log. `showDateTime` will show the passed time in milliseconds. You
@@ -21,37 +25,19 @@ variables:
     --batch-mode --errors --fail-at-end --show-version
     -DinstallAtEnd=true -DdeployAtEnd=true
 
-cache:
-  paths:
-    - .m2/repository
-
-versions:
-  image:
-    name: maven:3-openjdk-8
-  stage: lint
-  script: './maven-dependency-check.sh'
-  timeout: 10 minutes
-
-verify:openjdk8:
-  stage: test
-  image: maven:3-openjdk-8
-  script:
-    - './mvnw $MAVEN_CLI_OPTS verify'
-  only:
-    - master
-
-verify:openjdk11:
-  stage: test
-  image: maven:3-openjdk-11
-  script:
-    - './mvnw $MAVEN_CLI_OPTS verify'
-  only:
-    - master
-
-verify:openjdk17:
-  stage: test
-  image: maven:3-openjdk-17
-  script:
-    - './mvnw $MAVEN_CLI_OPTS verify'
-  only:
-    - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [8]
+    name: Java ${{ matrix.java }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+      - name: Maven Dependency Check
+        run: ./maven-dependency-check.sh
