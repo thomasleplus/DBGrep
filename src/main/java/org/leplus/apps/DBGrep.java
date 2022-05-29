@@ -130,7 +130,6 @@ class DBGrep {
 				f.printStackTrace();
 			}
 		}
-		return;
 	}
 
 }
