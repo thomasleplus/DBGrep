@@ -8,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
-@SuppressFBWarnings(value="SQL_INJECTION_JDBC")
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+@SuppressFBWarnings("SQL_INJECTION_JDBC")
 public class DBGrep {
 
     private final static String LOGIN_FLAG = "-l";
@@ -104,8 +106,10 @@ public class DBGrep {
                 type = rs1.getInt(5);
                 try {
                     if (type == Types.VARCHAR) {
-                        // Bind variables cannot be used for DDL so using concatenation instead.
-                        // Values are not user input so SQL injection is not a concern here.
+                        // Bind variables cannot be used for DDL so using
+                        // concatenation instead.
+                        // Values are not user input so SQL injection is not a
+                        // concern here.
                         stmt = con.prepareStatement(
                                 "SELECT " + col + " FROM " + sch + '.' + tbl
                                         + " WHERE " + col + " LIKE ?");
