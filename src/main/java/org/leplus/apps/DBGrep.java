@@ -36,20 +36,44 @@ public class DBGrep {
         while (i < args.length) {
             final String flag = args[i++];
             if (LOGIN_FLAG.equals(flag)) {
+                if (i == args.length) {
+                    throw new IllegalArgumentException("Missing login argument.");
+                }
                 login = args[i++];
             } else if (PASSWORD_FLAG.equals(flag)) {
+                if (i == args.length) {
+                    throw new IllegalArgumentException("Missing password argument.");
+                }
                 password = args[i++];
             } else if (URL_FLAG.equals(flag)) {
+                if (i == args.length) {
+                    throw new IllegalArgumentException("Missing URL argument.");
+                }
                 url = args[i++];
             } else if (DRIVER_FLAG.equals(flag)) {
+                if (i == args.length) {
+                    throw new IllegalArgumentException("Missing driver argument.");
+                }
                 driver = args[i++];
             } else if (SCHEMA_FLAG.equals(flag)) {
+                if (i == args.length) {
+                    throw new IllegalArgumentException("Missing schema argument.");
+                }
                 schema = args[i++];
             } else if (TABLE_FLAG.equals(flag)) {
+                if (i == args.length) {
+                    throw new IllegalArgumentException("Missing table argument.");
+                }
                 table = args[i++];
             } else if (COLUMN_FLAG.equals(flag)) {
+                if (i == args.length) {
+                    throw new IllegalArgumentException("Missing column argument.");
+                }
                 column = args[i++];
             } else if (VALUE_FLAG.equals(flag)) {
+                if (i == args.length) {
+                    throw new IllegalArgumentException("Missing value argument.");
+                }
                 value = args[i++];
             } else if (HELP_FLAG.equals(flag)) {
                 System.out.println("options:");
