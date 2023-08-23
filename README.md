@@ -28,3 +28,5 @@ and the column value. For example, the output might look like this:
 "%John%","HR","employees","full_name","John Doe"
 "%John%","HR","employees","email_address","john.doe@example.com"
 ```
+
+See [test.sql](test.sql) for a full-fledged example.
