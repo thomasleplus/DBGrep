@@ -12,6 +12,4 @@ INSERT INTO employees (employee_id, full_name, first_name, last_name, email_addr
 
 INSERT INTO employees (employee_id, full_name, first_name, last_name, email_address) VALUES (2, 'Jane Doe', 'Jane', 'Doe', 'jane.doe@example.com');
 
-BEGIN
-grep('HR', '%John%');
-END;
+EXECUTE grep('HR', '%John%');
