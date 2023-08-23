@@ -15,7 +15,7 @@ search and a pattern compatible with the SQL operator LIKE. For
 example:
 
 ```text
-SQL> BEGIN grep('HR', '%John%'); END;
+SQL> EXECUTE grep('HR', '%John%');
 ```
 
 The output of the procedure is in CSV format (without headers). Each
