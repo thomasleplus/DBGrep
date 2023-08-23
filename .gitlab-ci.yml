@@ -6,26 +6,6 @@ include:
 
 stages:
   - check
-  - test
-
-variables:
-  MAVEN_OPTS: >
-    -Dhttps.protocols=TLSv1.2
-    -Dmaven.repo.local=.m2/repository
-    -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN
-    -Dorg.slf4j.simpleLogger.showDateTime=true
-    -Djava.awt.headless=true
-  MAVEN_CLI_OPTS: >
-    --batch-mode
-    --errors
-    --fail-at-end
-    --show-version
-    -DinstallAtEnd=true
-    -DdeployAtEnd=true
-
-cache:
-  paths:
-    - .m2/repository
 
 sast:
   stage: check
@@ -43,42 +23,19 @@ OSV scanner:
     - 'PATH="${PATH}:$(go env GOPATH)/bin" osv-scanner -r .'
   timeout: 10 minutes
 
-versions:
+super linter:
   image:
-    name: leplusorg/maven-check-versions:latest
-  script:
-    - '/opt/maven-check-versions.sh'
+    name: github/super-linter:latest
+    entrypoint:
+      - ''
   stage: check
+  variables:
+    RUN_LOCAL: 'true'
+    USE_FIND_ALGORITHM: 'true'
+    VALIDATE_ALL_CODEBASE: 'true'
+    FILTER_REGEX_EXCLUDE: '(.aws/*|.docker/*|.git-credentials|.ssh/*)'
+  before_script:
+    - 'ln -s "$(pwd)" /tmp/lint'
+  script:
+    - '/action/lib/linter.sh'
   timeout: 10 minutes
-
-verify:openjdk8:
-  stage: test
-  image: maven:3-openjdk-8-slim
-  script:
-    - './mvnw $MAVEN_CLI_OPTS verify'
-  only:
-    - master
-
-verify:openjdk11:
-  stage: test
-  image: maven:3-openjdk-11-slim
-  script:
-    - './mvnw $MAVEN_CLI_OPTS verify'
-  only:
-    - master
-
-verify:openjdk17:
-  stage: test
-  image: maven:3-openjdk-17-slim
-  script:
-    - './mvnw $MAVEN_CLI_OPTS verify'
-  only:
-    - master
-
-verify:openjdk18:
-  stage: test
-  image: maven:3-openjdk-18-slim
-  script:
-    - './mvnw $MAVEN_CLI_OPTS verify'
-  only:
-    - master
