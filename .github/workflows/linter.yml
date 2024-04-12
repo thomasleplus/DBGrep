@@ -63,6 +63,6 @@ jobs:
         # FIXME: turning off SQLFluff which seems to have issues parsing
         env:
           VALIDATE_ALL_CODEBASE: true
-	  VALIDATE_SQLFLUFF: false
+          VALIDATE_SQLFLUFF: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
