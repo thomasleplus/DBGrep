@@ -33,6 +33,7 @@ super linter:
     RUN_LOCAL: 'true'
     USE_FIND_ALGORITHM: 'true'
     VALIDATE_ALL_CODEBASE: 'true'
+    LINTER_RULES_PATH: '.'
     FILTER_REGEX_EXCLUDE: '(.aws/*|.docker/*|.git-credentials|.ssh/*)'
   before_script:
     - 'ln -s "$(pwd)" /tmp/lint'
