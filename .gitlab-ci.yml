@@ -20,8 +20,7 @@ secret_detection:
   stage: check
 
 OSV scanner:
-  image:
-    name: golang:latest
+  image: golang:latest
   stage: check
   before_script:
     - "go install github.com/google/osv-scanner/cmd/osv-scanner@latest"
