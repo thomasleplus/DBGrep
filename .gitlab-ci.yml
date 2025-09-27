@@ -1,8 +1,8 @@
 ---
 include:
-  - template: Security/Secret-Detection.gitlab-ci.yml
-  - template: Security/SAST.gitlab-ci.yml
-  - template: Security/SAST-IaC.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
+  - template: Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/SAST-IaC.gitlab-ci.yml
 
 stages:
   - check
@@ -19,7 +19,7 @@ kics-iac-sast:
 secret_detection:
   stage: check
 
-OSV scanner:
+osv-scanner:
   allow_failure: true
   image: golang:latest
   stage: check
@@ -29,7 +29,7 @@ OSV scanner:
     - 'PATH="${PATH}:$(go env GOPATH)/bin" osv-scanner -r .'
   timeout: 10 minutes
 
-super linter:
+super-linter:
   image:
     name: ghcr.io/super-linter/super-linter:v8.0.0@sha256:fbe685d38089fd194bd08c48375748eb58215d3fb80c9a3f51b5650e86efa1c9
     entrypoint:
