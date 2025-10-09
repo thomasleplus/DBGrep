@@ -41,6 +41,7 @@ super-linter:
     USE_FIND_ALGORITHM: "true"
     VALIDATE_ALL_CODEBASE: "true"
     LINTER_RULES_PATH: "."
+    BIOME_CONFIG_PATH: .biome.json
     ENFORCE_COMMITLINT_CONFIGURATION_CHECK: "true"
   before_script:
     - 'ln -s "$(pwd)" /tmp/lint'
