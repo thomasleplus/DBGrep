@@ -7,6 +7,9 @@ include:
 stages:
   - check
 
+default:
+  interruptible: true
+
 variables:
   GIT_DEPTH: 1
 
@@ -24,12 +27,23 @@ secret_detection:
 
 osv-scanner:
   allow_failure: true
-  image: golang:latest
+  image:
+    name: golang:alpine
+    entrypoint:
+      - "" # Entrypoint is overridden by GitLab anyway
   stage: check
+  cache:
+    key: osv-scanner
+    paths:
+      - .cache/gopath/pkg/mod
+      - .cache/gocache
+  variables:
+    GOPATH: ${CI_PROJECT_DIR}/.cache/gopath
+    GOCACHE: ${CI_PROJECT_DIR}/.cache/gocache
   before_script:
     - "go install github.com/google/osv-scanner/cmd/osv-scanner@latest"
   script:
-    - 'PATH="${PATH}:$(go env GOPATH)/bin" osv-scanner -r .'
+    - 'PATH="${PATH}:${GOPATH}/bin" osv-scanner -r .'
   timeout: 10 minutes
 
 super-linter:
